@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 export function Users() {
   const users = useLoaderData();
@@ -17,9 +17,9 @@ export function Users() {
                 <div>{user.email}</div>
               </div>
               <div className="card-footer">
-                <a className="btn" href="user.html">
+                <Link className="btn" to={user.id.toString()}>
                   View
-                </a>
+                </Link>
               </div>
             </div>
           );
