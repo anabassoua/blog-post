@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 
-export function Todos() {
+function Todos() {
   const todos = useLoaderData();
 
   return (
@@ -20,3 +20,12 @@ export function Todos() {
     </div>
   );
 }
+
+function loader({ request: { signal } }) {
+  return fetch("http://127.0.0.1:3000/todos", { signal });
+}
+
+export const todos = {
+  loader,
+  element: <Todos />,
+};

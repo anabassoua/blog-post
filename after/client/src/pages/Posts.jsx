@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 
-export function Posts() {
+function Posts() {
   const allPosts = useLoaderData();
 
   return (
@@ -26,3 +26,12 @@ export function Posts() {
     </div>
   );
 }
+
+function loader({ request: { signal } }) {
+  return fetch("http://127.0.0.1:3000/posts", { signal });
+}
+
+export const postList = {
+  element: <Posts />,
+  loader,
+};

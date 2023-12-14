@@ -1,6 +1,6 @@
 import { Link, useLoaderData } from "react-router-dom";
 
-export function Post() {
+function Post() {
   const post = useLoaderData();
 
   return (
@@ -26,3 +26,14 @@ export function Post() {
     </div>
   );
 }
+
+function loader({ params, request: { signal } }) {
+  return fetch(`http://127.0.0.1:3000/posts/${params.postId}`, {
+    signal,
+  });
+}
+
+export const postPage = {
+  loader,
+  element: <Post />,
+};

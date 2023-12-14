@@ -5,12 +5,12 @@ import {
   createBrowserRouter,
   useNavigation,
 } from "react-router-dom";
-import { Posts } from "./Posts";
-import { Users } from "./Users";
-import { Todos } from "./Todos";
+import { postList } from "./pages/Posts";
+import { postPage } from "./pages/Post";
+import { userList } from "./pages/Users";
+import { userPage } from "./pages/User";
+import { todos } from "./pages/Todos";
 import { Navbar } from "./Navbar";
-import { Post } from "./Post";
-import { User } from "./User";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { ErrorPage } from "./ErrorPage";
 
@@ -28,19 +28,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Posts />,
-                loader: ({ request: { signal } }) => {
-                  return fetch("http://127.0.0.1:3000/posts", { signal });
-                },
+                ...postList,
               },
               {
                 path: ":postId",
-                loader: ({ params, request: { signal } }) => {
-                  return fetch(`http://127.0.0.1:3000/posts/${params.postId}`, {
-                    signal,
-                  });
-                },
-                element: <Post />,
+                ...postPage,
               },
             ],
           },
@@ -50,28 +42,17 @@ export const router = createBrowserRouter([
             children: [
               {
                 index: true,
-                element: <Users />,
-                loader: ({ request: { signal } }) => {
-                  return fetch("http://127.0.0.1:3000/users", { signal });
-                },
+                ...userList,
               },
               {
                 path: ":userId",
-                loader: ({ params, request: { signal } }) => {
-                  return fetch(`http://127.0.0.1:3000/users/${params.userId}`, {
-                    signal,
-                  });
-                },
-                element: <User />,
+                ...userPage,
               },
             ],
           },
           {
             path: "/todos",
-            element: <Todos />,
-            loader: ({ request: { signal } }) => {
-              return fetch("http://127.0.0.1:3000/todos", { signal });
-            },
+            ...todos,
           },
           { path: "*", element: <h1>Error 404</h1> },
         ],
@@ -82,7 +63,7 @@ export const router = createBrowserRouter([
 
 function NavLayout() {
   const { state } = useNavigation();
-  // state === "loading";
+
   return (
     <>
       <Navbar />

@@ -1,6 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 
-export function User() {
+function User() {
   const user = useLoaderData();
 
   return (
@@ -20,3 +20,14 @@ export function User() {
     </div>
   );
 }
+
+function loader({ params, request: { signal } }) {
+  return fetch(`http://127.0.0.1:3000/users/${params.userId}`, {
+    signal,
+  });
+}
+
+export const userPage = {
+  element: <User />,
+  loader,
+};
