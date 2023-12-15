@@ -1,7 +1,7 @@
 import { Link, useLoaderData } from "react-router-dom";
 
 function Post() {
-  const post = useLoaderData();
+  const { comments, post, user } = useLoaderData();
 
   return (
     <div>
@@ -27,10 +27,20 @@ function Post() {
   );
 }
 
-function loader({ params, request: { signal } }) {
-  return fetch(`http://127.0.0.1:3000/posts/${params.postId}`, {
+async function loader({ params, request: { signal } }) {
+  const comments = fetch(`http://127.0.0.1:3000/${params.postId}/comments`, {
     signal,
   });
+
+  const post = await fetch(`http://127.0.0.1:3000/posts/${params.postId}`, {
+    signal,
+  });
+
+  const user = fetch(`http://127.0.0.1:3000/users/${params.userId}`, {
+    signal,
+  });
+
+  return { comments: await comments, post, user: await user };
 }
 
 export const postPage = {
